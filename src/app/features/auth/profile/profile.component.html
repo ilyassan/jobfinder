@@ -1,0 +1,165 @@
+<div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-white shadow rounded-lg p-8">
+      <div class="flex justify-between items-center mb-6">
+        <h2 class="text-2xl font-bold text-gray-900">Profile Settings</h2>
+        @if (!isEditing()) {
+          <button
+            (click)="toggleEdit()"
+            class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700"
+          >
+            Edit Profile
+          </button>
+        }
+      </div>
+
+      @if (successMessage()) {
+        <div class="mb-4 bg-green-50 border border-green-200 rounded-lg p-4">
+          <p class="text-sm text-green-800">{{ successMessage() }}</p>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="mb-4 bg-red-50 border border-red-200 rounded-lg p-4">
+          <p class="text-sm text-red-800">{{ errorMessage() }}</p>
+        </div>
+      }
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- First Name -->
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">
+            First Name
+          </label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [class.bg-gray-50]="!isEditing()"
+          />
+          @if (firstName?.invalid && firstName?.touched && isEditing()) {
+            <p class="mt-1 text-sm text-red-600">
+              @if (firstName?.errors?.['required']) {
+                First name is required
+              }
+              @if (firstName?.errors?.['minlength']) {
+                First name must be at least 2 characters
+              }
+            </p>
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">
+            Last Name
+          </label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [class.bg-gray-50]="!isEditing()"
+          />
+          @if (lastName?.invalid && lastName?.touched && isEditing()) {
+            <p class="mt-1 text-sm text-red-600">
+              @if (lastName?.errors?.['required']) {
+                Last name is required
+              }
+              @if (lastName?.errors?.['minlength']) {
+                Last name must be at least 2 characters
+              }
+            </p>
+          }
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+            Email Address
+          </label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            [class.bg-gray-50]="!isEditing()"
+          />
+          @if (email?.invalid && email?.touched && isEditing()) {
+            <p class="mt-1 text-sm text-red-600">
+              @if (email?.errors?.['required']) {
+                Email is required
+              }
+              @if (email?.errors?.['email']) {
+                Please enter a valid email
+              }
+            </p>
+          }
+        </div>
+
+        <!-- Password -->
+        @if (isEditing()) {
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+              New Password (optional)
+            </label>
+            <input
+              id="password"
+              type="password"
+              formControlName="password"
+              placeholder="Leave blank to keep current password"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            />
+            @if (password?.invalid && password?.touched) {
+              <p class="mt-1 text-sm text-red-600">
+                @if (password?.errors?.['minlength']) {
+                  Password must be at least 6 characters
+                }
+              </p>
+            }
+          </div>
+        }
+
+        <!-- Action Buttons -->
+        @if (isEditing()) {
+          <div class="flex gap-3">
+            <button
+              type="submit"
+              [disabled]="isLoading()"
+              class="px-6 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+            >
+              @if (isLoading()) {
+                <span>Saving...</span>
+              } @else {
+                <span>Save Changes</span>
+              }
+            </button>
+            <button
+              type="button"
+              (click)="toggleEdit()"
+              class="px-6 py-2 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300"
+            >
+              Cancel
+            </button>
+          </div>
+        }
+      </form>
+
+      <!-- Danger Zone -->
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <h3 class="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          Once you delete your account, there is no going back. Please be certain.
+        </p>
+        <button
+          (click)="deleteAccount()"
+          [disabled]="isLoading()"
+          class="px-6 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
