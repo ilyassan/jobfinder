@@ -7,6 +7,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
 import { favoritesReducer } from './store/favorites/favorites.reducer';
+import { FavoritesEffects } from './store/favorites/favorites.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,7 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideStore({ favorites: favoritesReducer }),
-    provideEffects(),
+    provideEffects([FavoritesEffects]),
     provideStoreDevtools({
       maxAge: 25,
       logOnly: !isDevMode(),
