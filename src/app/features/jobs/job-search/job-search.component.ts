@@ -16,6 +16,7 @@ export class JobSearchComponent implements OnInit {
   errorMessage = signal<string>('');
   currentPage = signal<number>(1);
   itemsPerPage = 10;
+  Math = Math;
 
   constructor(private jobService: JobService) {}
 
