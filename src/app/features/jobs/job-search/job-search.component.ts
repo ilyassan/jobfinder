@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { JobService } from '../../../core/services/job.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Job, JobSearchParams } from '../../../core/models';
+import { ApplicationsService } from '../../../core/services/applications.service';
+import { Job, JobSearchParams, ApplicationStatus } from '../../../core/models';
 import { AppState } from '../../../store/app.state';
 import * as FavoritesActions from '../../../store/favorites/favorites.actions';
 import * as FavoritesSelectors from '../../../store/favorites/favorites.selectors';
@@ -27,6 +28,7 @@ export class JobSearchComponent implements OnInit {
   constructor(
     private jobService: JobService,
     private authService: AuthService,
+    private applicationsService: ApplicationsService,
     private store: Store<AppState>
   ) {}
 
@@ -156,5 +158,29 @@ export class JobSearchComponent implements OnInit {
           }));
         }
       }).unsubscribe();
+  }
+
+  trackApplication(job: Job): void {
+    const user = this.authService.getCurrentUser();
+    if (!user || !user.id) {
+      return;
+    }
+
+    this.applicationsService.addApplication({
+      userId: user.id,
+      jobSlug: job.slug,
+      title: job.title,
+      company: job.company_name,
+      location: job.location,
+      url: job.url,
+      status: ApplicationStatus.EN_ATTENTE
+    }).subscribe({
+      next: () => {
+        alert('Application tracked successfully!');
+      },
+      error: (error) => {
+        alert('Failed to track application: ' + error.message);
+      }
+    });
   }
 }
