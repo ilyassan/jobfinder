@@ -1,8 +1,14 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { JobService } from '../../../core/services/job.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Job, JobSearchParams } from '../../../core/models';
+import { AppState } from '../../../store/app.state';
+import * as FavoritesActions from '../../../store/favorites/favorites.actions';
+import * as FavoritesSelectors from '../../../store/favorites/favorites.selectors';
 
 @Component({
   selector: 'app-job-search',
@@ -18,11 +24,21 @@ export class JobSearchComponent implements OnInit {
   itemsPerPage = 10;
   Math = Math;
 
-  constructor(private jobService: JobService) {}
+  constructor(
+    private jobService: JobService,
+    private authService: AuthService,
+    private store: Store<AppState>
+  ) {}
 
   ngOnInit(): void {
     // Load initial jobs
     this.performSearch({});
+
+    // Load favorites if user is authenticated
+    const user = this.authService.getCurrentUser();
+    if (user && user.id) {
+      this.store.dispatch(FavoritesActions.loadFavorites({ userId: user.id }));
+    }
   }
 
   onSearch(params: JobSearchParams): void {
@@ -105,5 +121,40 @@ export class JobSearchComponent implements OnInit {
     }
 
     return pages;
+  }
+
+  isAuthenticated(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
+  isFavorite(jobSlug: string): Observable<boolean> {
+    return this.store.select(FavoritesSelectors.selectIsFavorite(jobSlug));
+  }
+
+  toggleFavorite(job: Job): void {
+    const user = this.authService.getCurrentUser();
+    if (!user || !user.id) {
+      return;
+    }
+
+    this.store.select(FavoritesSelectors.selectFavoriteByJobSlug(job.slug))
+      .subscribe(favorite => {
+        if (favorite && favorite.id) {
+          // Remove from favorites
+          this.store.dispatch(FavoritesActions.removeFavorite({ favoriteId: favorite.id }));
+        } else {
+          // Add to favorites
+          this.store.dispatch(FavoritesActions.addFavorite({
+            favorite: {
+              userId: user.id!,
+              jobSlug: job.slug,
+              title: job.title,
+              company: job.company_name,
+              location: job.location,
+              url: job.url
+            }
+          }));
+        }
+      }).unsubscribe();
   }
 }
