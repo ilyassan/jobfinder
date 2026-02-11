@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, switchMap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User, LoginRequest, RegisterRequest } from '../models';
 
@@ -66,21 +66,14 @@ export class AuthService {
   register(data: RegisterRequest): Observable<User> {
     // First check if user already exists
     return this.http.get<User[]>(`${this.API_URL}/users?email=${data.email}`).pipe(
-      map(users => {
+      switchMap(users => {
         if (users.length > 0) {
-          throw new Error('User already exists with this email');
+          return throwError(() => new Error('User already exists with this email'));
         }
-        return data;
-      }),
-      // Then create the new user
-      map(() => {
+        // Create the new user
         return this.http.post<User>(`${this.API_URL}/users`, data);
       }),
-      // Flatten the nested observable
-      map(observable => observable),
-      tap(observable => {
-        observable.subscribe(user => this.saveUserToStorage(user));
-      }),
+      tap(user => this.saveUserToStorage(user)),
       catchError(error => {
         console.error('Registration error:', error);
         return throwError(() => new Error(error.message || 'Registration failed'));
