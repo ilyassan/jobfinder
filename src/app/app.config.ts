@@ -6,13 +6,14 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { routes } from './app.routes';
+import { favoritesReducer } from './store/favorites/favorites.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
-    provideStore(),
+    provideStore({ favorites: favoritesReducer }),
     provideEffects(),
     provideStoreDevtools({
       maxAge: 25,
