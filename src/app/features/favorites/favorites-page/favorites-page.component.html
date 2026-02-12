@@ -1,40 +1,37 @@
-<div class="min-h-screen bg-gray-50">
+<div class="favorites-container">
   <!-- Header -->
-  <div class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <h1 class="text-3xl font-bold text-gray-900">My Saved Jobs</h1>
-      <p class="mt-2 text-sm text-gray-600">Jobs you've marked as favorites</p>
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">My Saved Jobs</h1>
+      <p class="page-subtitle">Jobs you've marked as favorites</p>
     </div>
   </div>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="content-wrapper">
     <!-- Loading State -->
     @if (loading$ | async) {
-      <div class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div class="loading-container">
+        <div class="spinner"></div>
       </div>
     }
 
     <!-- Error State -->
     @if ((error$ | async) && !(loading$ | async)) {
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p class="text-red-800">{{ error$ | async }}</p>
+      <div class="error-container">
+        <p class="error-text">{{ error$ | async }}</p>
       </div>
     }
 
     <!-- Empty State -->
     @if ((favorites$ | async)?.length === 0 && !(loading$ | async) && !(error$ | async)) {
-      <div class="text-center py-20">
-        <svg class="mx-auto h-24 w-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="empty-state">
+        <svg class="empty-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
         </svg>
-        <h2 class="mt-6 text-2xl font-semibold text-gray-900">No saved jobs yet</h2>
-        <p class="mt-2 text-gray-600">Start saving jobs you're interested in!</p>
-        <a
-          href="/jobs"
-          class="mt-6 inline-block px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700"
-        >
+        <h2 class="empty-title">No saved jobs yet</h2>
+        <p class="empty-subtitle">Start saving jobs you're interested in!</p>
+        <a href="/jobs" class="empty-cta">
           Browse Jobs
         </a>
       </div>
@@ -42,44 +39,44 @@
 
     <!-- Favorites List -->
     @if ((favorites$ | async) && (favorites$ | async)!.length > 0 && !(loading$ | async)) {
-      <div class="space-y-4">
+      <div class="favorites-list">
         @for (favorite of (favorites$ | async); track favorite.id) {
-          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-            <div class="flex justify-between items-start">
-              <div class="flex-1">
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">
+          <div class="favorite-card">
+            <div class="favorite-content">
+              <div class="favorite-details">
+                <h3 class="favorite-title">
                   {{ favorite.title }}
                 </h3>
-                <p class="text-lg text-gray-700 mb-2">{{ favorite.company }}</p>
+                <p class="favorite-company">{{ favorite.company }}</p>
 
-                <div class="flex items-center text-sm text-gray-600 mb-3">
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="favorite-location">
+                  <svg class="location-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                   </svg>
                   {{ favorite.location }}
                 </div>
 
-                <p class="text-xs text-gray-500">
+                <p class="favorite-date">
                   Saved on {{ favorite.savedAt | date:'medium' }}
                 </p>
               </div>
 
-              <div class="ml-4 flex flex-col gap-2">
+              <div class="favorite-actions">
                 <a
                   [href]="favorite.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 text-center whitespace-nowrap"
+                  class="btn btn-primary"
                 >
                   View Job
                 </a>
 
                 <button
                   (click)="removeFavorite(favorite.id)"
-                  class="px-4 py-2 bg-red-100 text-red-700 border border-red-300 text-sm font-medium rounded-lg hover:bg-red-200 text-center whitespace-nowrap flex items-center justify-center gap-2"
+                  class="btn-remove"
                 >
-                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <svg class="btn-icon" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
                   </svg>
                   Remove

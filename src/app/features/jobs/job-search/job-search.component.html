@@ -1,35 +1,35 @@
-<div class="min-h-screen bg-gray-50">
+<div class="job-search-container">
   <!-- Search Bar -->
   <app-search-bar (search)="onSearch($event)"></app-search-bar>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="content-wrapper">
     <!-- Loading State -->
     @if (isLoading()) {
-      <div class="flex justify-center items-center py-20">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      <div class="loading-container">
+        <div class="spinner"></div>
       </div>
     }
 
     <!-- Error State -->
     @if (errorMessage() && !isLoading()) {
-      <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-        <p class="text-red-800">{{ errorMessage() }}</p>
+      <div class="error-container">
+        <p class="error-text">{{ errorMessage() }}</p>
       </div>
     }
 
     <!-- Results -->
     @if (!isLoading() && !errorMessage()) {
       <!-- Results Header -->
-      <div class="mb-6">
-        <h2 class="text-2xl font-bold text-gray-900">
+      <div class="results-header">
+        <h2 class="results-title">
           @if (jobs().length === 0) {
             No jobs found
           } @else {
             {{ jobs().length }} job{{ jobs().length === 1 ? '' : 's' }} found
           }
         </h2>
-        <p class="text-sm text-gray-600 mt-1">
+        <p class="results-subtitle">
           Showing {{ (currentPage() - 1) * itemsPerPage + 1 }} -
           {{ Math.min(currentPage() * itemsPerPage, jobs().length) }} of {{ jobs().length }}
         </p>
@@ -37,19 +37,19 @@
 
       <!-- Job Cards List -->
       @if (paginatedJobs.length > 0) {
-        <div class="space-y-4">
+        <div class="job-list">
           @for (job of paginatedJobs; track job.slug) {
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-              <div class="flex justify-between items-start">
-                <div class="flex-1">
-                  <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            <div class="job-card">
+              <div class="job-card-content">
+                <div class="job-details">
+                  <h3 class="job-title">
                     {{ job.title }}
                   </h3>
-                  <p class="text-lg text-gray-700 mb-2">{{ job.company_name }}</p>
+                  <p class="job-company">{{ job.company_name }}</p>
 
-                  <div class="flex flex-wrap gap-3 text-sm text-gray-600 mb-3">
-                    <span class="flex items-center">
-                      <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="job-meta">
+                    <span class="job-location">
+                      <svg class="location-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                       </svg>
@@ -57,7 +57,7 @@
                     </span>
 
                     @if (job.remote) {
-                      <span class="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">
+                      <span class="remote-badge">
                         Remote
                       </span>
                     }
@@ -65,9 +65,9 @@
 
                   <!-- Tags -->
                   @if (job.tags && job.tags.length > 0) {
-                    <div class="flex flex-wrap gap-2 mb-3">
+                    <div class="job-tags">
                       @for (tag of job.tags; track tag) {
-                        <span class="px-2 py-1 bg-indigo-100 text-indigo-800 rounded text-xs">
+                        <span class="tag">
                           {{ tag }}
                         </span>
                       }
@@ -76,9 +76,9 @@
 
                   <!-- Job Types -->
                   @if (job.job_types && job.job_types.length > 0) {
-                    <div class="flex flex-wrap gap-2">
+                    <div class="job-types">
                       @for (type of job.job_types; track type) {
-                        <span class="px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs">
+                        <span class="type-badge">
                           {{ type }}
                         </span>
                       }
@@ -86,12 +86,12 @@
                   }
                 </div>
 
-                <div class="ml-4 flex flex-col gap-2">
+                <div class="job-actions">
                   <a
                     [href]="job.url"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 text-center whitespace-nowrap"
+                    class="btn btn-primary"
                   >
                     View Job
                   </a>
@@ -99,15 +99,16 @@
                   @if (isAuthenticated()) {
                     <button
                       (click)="toggleFavorite(job)"
-                      [class]="(isFavorite(job.slug) | async) ? 'px-4 py-2 bg-red-100 text-red-700 border border-red-300 text-sm font-medium rounded-lg hover:bg-red-200 text-center whitespace-nowrap flex items-center justify-center gap-2' : 'px-4 py-2 bg-white text-gray-700 border border-gray-300 text-sm font-medium rounded-lg hover:bg-gray-50 text-center whitespace-nowrap flex items-center justify-center gap-2'"
+                      [class.active]="(isFavorite(job.slug) | async)"
+                      class="btn-favorite"
                     >
                       @if ((isFavorite(job.slug) | async)) {
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="btn-icon" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
                         </svg>
                         <span>Saved</span>
                       } @else {
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                         </svg>
                         <span>Save</span>
@@ -116,9 +117,9 @@
 
                     <button
                       (click)="trackApplication(job)"
-                      class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 text-center whitespace-nowrap flex items-center justify-center gap-2"
+                      class="btn-track"
                     >
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
                       </svg>
                       <span>Track</span>
@@ -132,11 +133,11 @@
 
         <!-- Pagination -->
         @if (totalPages > 1) {
-          <div class="mt-8 flex justify-center items-center gap-2">
+          <div class="pagination">
             <button
               (click)="previousPage()"
               [disabled]="currentPage() === 1"
-              class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="pagination-btn"
             >
               Previous
             </button>
@@ -144,10 +145,8 @@
             @for (pageNum of pageNumbers; track pageNum) {
               <button
                 (click)="goToPage(pageNum)"
-                [class.bg-indigo-600]="pageNum === currentPage()"
-                [class.text-white]="pageNum === currentPage()"
-                [class.border-indigo-600]="pageNum === currentPage()"
-                class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50"
+                [class.active]="pageNum === currentPage()"
+                class="pagination-btn"
               >
                 {{ pageNum }}
               </button>
@@ -156,7 +155,7 @@
             <button
               (click)="nextPage()"
               [disabled]="currentPage() === totalPages"
-              class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+              class="pagination-btn"
             >
               Next
             </button>

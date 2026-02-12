@@ -1,36 +1,36 @@
-<div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-md w-full space-y-8">
-    <div>
-      <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+<div class="register-container">
+  <div class="register-box">
+    <div class="register-header">
+      <h2 class="register-title">
         Create your account
       </h2>
-      <p class="mt-2 text-center text-sm text-gray-600">
+      <p class="register-subtitle">
         Already have an account?
-        <a routerLink="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+        <a routerLink="/login" class="register-link">
           Sign in here
         </a>
       </p>
     </div>
 
-    <form class="mt-8 space-y-6" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <form class="register-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
       @if (errorMessage()) {
-        <div class="rounded-md bg-red-50 p-4">
-          <p class="text-sm text-red-800">{{ errorMessage() }}</p>
+        <div class="error-alert">
+          <p class="error-text">{{ errorMessage() }}</p>
         </div>
       }
 
-      <div class="rounded-md shadow-sm space-y-4">
-        <div>
-          <label for="firstName" class="block text-sm font-medium text-gray-700">First Name</label>
+      <div class="form-fields">
+        <div class="form-field">
+          <label for="firstName" class="field-label">First Name</label>
           <input
             id="firstName"
             type="text"
             formControlName="firstName"
-            class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="field-input"
             placeholder="First Name"
           />
           @if (firstName?.invalid && firstName?.touched) {
-            <p class="mt-1 text-sm text-red-600">
+            <p class="field-error">
               @if (firstName?.errors?.['required']) {
                 First name is required
               }
@@ -41,17 +41,17 @@
           }
         </div>
 
-        <div>
-          <label for="lastName" class="block text-sm font-medium text-gray-700">Last Name</label>
+        <div class="form-field">
+          <label for="lastName" class="field-label">Last Name</label>
           <input
             id="lastName"
             type="text"
             formControlName="lastName"
-            class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="field-input"
             placeholder="Last Name"
           />
           @if (lastName?.invalid && lastName?.touched) {
-            <p class="mt-1 text-sm text-red-600">
+            <p class="field-error">
               @if (lastName?.errors?.['required']) {
                 Last name is required
               }
@@ -62,17 +62,17 @@
           }
         </div>
 
-        <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+        <div class="form-field">
+          <label for="email" class="field-label">Email address</label>
           <input
             id="email"
             type="email"
             formControlName="email"
-            class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="field-input"
             placeholder="Email address"
           />
           @if (email?.invalid && email?.touched) {
-            <p class="mt-1 text-sm text-red-600">
+            <p class="field-error">
               @if (email?.errors?.['required']) {
                 Email is required
               }
@@ -83,17 +83,17 @@
           }
         </div>
 
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <div class="form-field">
+          <label for="password" class="field-label">Password</label>
           <input
             id="password"
             type="password"
             formControlName="password"
-            class="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="field-input"
             placeholder="Password (min 6 characters)"
           />
           @if (password?.invalid && password?.touched) {
-            <p class="mt-1 text-sm text-red-600">
+            <p class="field-error">
               @if (password?.errors?.['required']) {
                 Password is required
               }
@@ -109,7 +109,7 @@
         <button
           type="submit"
           [disabled]="isLoading()"
-          class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          class="submit-button"
         >
           @if (isLoading()) {
             <span>Creating account...</span>
