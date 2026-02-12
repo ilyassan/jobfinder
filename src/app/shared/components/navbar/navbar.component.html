@@ -1,75 +1,29 @@
-<nav class="bg-indigo-600 shadow-lg">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between h-16">
-      <div class="flex items-center">
-        <!-- Logo -->
-        <a routerLink="/" class="flex items-center">
-          <span class="text-white text-2xl font-bold">JobFinder</span>
-        </a>
+<nav>
+  <div class="nav-container">
+    <div class="nav-content">
+      <div class="nav-left">
+        <a routerLink="/" class="logo">JobFinder</a>
 
-        <!-- Navigation Links -->
-        <div class="hidden md:flex md:ml-10 md:space-x-4">
-          <a
-            routerLink="/jobs"
-            routerLinkActive="bg-indigo-700"
-            class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
-          >
-            Jobs
-          </a>
+        <div class="nav-links">
+          <a routerLink="/jobs" routerLinkActive="active" class="nav-link">Jobs</a>
 
           @if (authService.isAuthenticated()) {
-            <a
-              routerLink="/favorites"
-              routerLinkActive="bg-indigo-700"
-              class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
-            >
-              Favorites
-            </a>
-
-            <a
-              routerLink="/applications"
-              routerLinkActive="bg-indigo-700"
-              class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
-            >
-              Applications
-            </a>
-
-            <a
-              routerLink="/profile"
-              routerLinkActive="bg-indigo-700"
-              class="text-white px-3 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
-            >
-              Profile
-            </a>
+            <a routerLink="/favorites" routerLinkActive="active" class="nav-link">Favorites</a>
+            <a routerLink="/applications" routerLinkActive="active" class="nav-link">Applications</a>
+            <a routerLink="/profile" routerLinkActive="active" class="nav-link">Profile</a>
           }
         </div>
       </div>
 
-      <!-- Right Side (Auth) -->
-      <div class="flex items-center space-x-4">
+      <div class="nav-right">
         @if (authService.isAuthenticated()) {
-          <span class="text-white text-sm">
+          <span class="user-name">
             {{ authService.currentUser()?.firstName }} {{ authService.currentUser()?.lastName }}
           </span>
-          <button
-            (click)="logout()"
-            class="bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 transition-colors"
-          >
-            Logout
-          </button>
+          <button (click)="logout()" class="btn-logout">Logout</button>
         } @else {
-          <a
-            routerLink="/login"
-            class="text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition-colors"
-          >
-            Login
-          </a>
-          <a
-            routerLink="/register"
-            class="bg-indigo-700 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-800 transition-colors"
-          >
-            Sign Up
-          </a>
+          <a routerLink="/login" class="btn-login">Login</a>
+          <a routerLink="/register" class="btn-signup">Sign Up</a>
         }
       </div>
     </div>
