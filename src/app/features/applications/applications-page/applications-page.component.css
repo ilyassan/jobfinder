@@ -48,7 +48,7 @@
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
-  border: 2px solid #4f46e5;
+  border: 2px solid #059669;
   border-top-color: transparent;
 }
 
@@ -98,7 +98,7 @@
   margin-top: 1.5rem;
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
   font-weight: 500;
   border-radius: 0.5rem;
@@ -107,7 +107,7 @@
 }
 
 .empty-cta:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 /* Applications List */
@@ -190,12 +190,12 @@
 }
 
 .btn-primary {
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .btn-remove {
@@ -239,8 +239,8 @@
 
 .status-select:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  border-color: #059669;
 }
 
 .status-pending {
@@ -283,7 +283,7 @@
 
 .notes-edit-btn {
   font-size: 0.875rem;
-  color: #4f46e5;
+  color: #059669;
   background: none;
   border: none;
   cursor: pointer;
@@ -291,7 +291,7 @@
 }
 
 .notes-edit-btn:hover {
-  color: #4338ca;
+  color: #047857;
 }
 
 .notes-form {
@@ -311,8 +311,8 @@
 
 .notes-textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  border-color: #059669;
 }
 
 .notes-actions {
@@ -322,7 +322,7 @@
 
 .btn-save {
   padding: 0.5rem 1rem;
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
   font-size: 0.875rem;
   font-weight: 500;
@@ -333,7 +333,7 @@
 }
 
 .btn-save:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .btn-cancel {

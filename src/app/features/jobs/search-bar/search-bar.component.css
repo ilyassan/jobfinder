@@ -45,8 +45,8 @@
 
 .form-input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  border-color: #059669;
 }
 
 .button-group {
@@ -56,7 +56,7 @@
 
 .btn-search {
   padding: 0.5rem 1.5rem;
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
   font-weight: 500;
   border-radius: 0.5rem;
@@ -66,12 +66,12 @@
 }
 
 .btn-search:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .btn-search:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.5), 0 0 0 1px rgba(79, 70, 229, 0.5);
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.5), 0 0 0 1px rgba(5, 150, 105, 0.5);
 }
 
 .btn-clear {

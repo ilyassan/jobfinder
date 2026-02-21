@@ -22,7 +22,7 @@
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
-  border: 2px solid #4f46e5;
+  border: 2px solid #059669;
   border-top-color: transparent;
 }
 
@@ -141,8 +141,8 @@
 
 .tag {
   padding: 0.25rem 0.5rem;
-  background-color: #e0e7ff;
-  color: #3730a3;
+  background-color: #d1fae5;
+  color: #065f46;
   border-radius: 0.25rem;
   font-size: 0.75rem;
 }
@@ -183,12 +183,12 @@
 }
 
 .btn-primary {
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
 }
 
 .btn-primary:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .btn-favorite {
@@ -277,9 +277,9 @@
 }
 
 .pagination-btn.active {
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
-  border-color: #4f46e5;
+  border-color: #059669;
 }
 
 @media (min-width: 640px) {

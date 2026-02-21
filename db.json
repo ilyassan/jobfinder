@@ -6,8 +6,28 @@
       "lastName": "Doe",
       "email": "john@example.com",
       "password": "password123"
+    },
+    {
+      "firstName": "Kevynz",
+      "lastName": "Hebert",
+      "email": "zyhahu@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "id": 2
     }
   ],
   "favorites": [],
-  "applications": []
+  "applications": [
+    {
+      "userId": 2,
+      "jobSlug": "customer-solution-specialist-dach-dusseldorf-220016",
+      "title": "Customer Solution Specialist - DACH",
+      "company": "Sendcloud",
+      "location": "Düsseldorf, North Rhine-Westphalia, Germany",
+      "url": "https://www.arbeitnow.com/jobs/companies/sendcloud/customer-solution-specialist-dach-dusseldorf-220016",
+      "status": "refuse",
+      "dateAdded": "2026-02-21T16:02:33.312Z",
+      "id": 1,
+      "notes": "lkjljl"
+    }
+  ]
 }

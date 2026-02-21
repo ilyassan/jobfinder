@@ -31,7 +31,7 @@
 
 .btn-edit {
   padding: 0.5rem 1rem;
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
   font-size: 0.875rem;
   font-weight: 500;
@@ -42,7 +42,7 @@
 }
 
 .btn-edit:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .alert-success {
@@ -100,8 +100,8 @@
 
 .form-input:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+  border-color: #059669;
 }
 
 .form-input.disabled {
@@ -122,7 +122,7 @@
 
 .btn-save {
   padding: 0.5rem 1.5rem;
-  background-color: #4f46e5;
+  background-color: #059669;
   color: white;
   font-weight: 500;
   border-radius: 0.5rem;
@@ -132,7 +132,7 @@
 }
 
 .btn-save:hover {
-  background-color: #4338ca;
+  background-color: #047857;
 }
 
 .btn-save:disabled {
